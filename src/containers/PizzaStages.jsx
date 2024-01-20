@@ -48,9 +48,6 @@ const PizzaStages = () => {
                 className={`pizza-card ${isExceedTime(order) ? 'exceed-time' : ''}`}
               >
               <p>Order ID: {order.id}</p>
-              <p>Type: {order.type}</p>
-              <p>Size: {order.size}</p>
-              <p>Base: {order.base}</p>
               <p>Order Placed: {order.timeSpent} {<Timer {...order}/>}</p>
               <button onClick={() => handleMoveOrder(order.id, 'Making')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
@@ -69,9 +66,6 @@ const PizzaStages = () => {
             className={`pizza-card ${isExceedTime(order) ? 'exceed-time' : ''}`}
             >
               <p>Order ID: {order.id}</p>
-              <p>Type: {order.type}</p>
-              <p>Size: {order.size}</p>
-              <p>Base: {order.base}</p>
               <p>Order Placed: {order.timeSpent} {<Timer {...order}/>} </p>
               <button onClick={() => handleMoveOrder(order.id, 'Ready')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
@@ -86,9 +80,6 @@ const PizzaStages = () => {
           .map((order) => (
             <div key={order.id} className="pizza-card">
               <p>Order ID: {order.id}</p>
-              <p>Type: {order.type}</p>
-              <p>Size: {order.size}</p>
-              <p>Base: {order.base}</p>
               <p>Order Placed: {order.timeSpent} {<Timer {...order}/>} </p>
               <button onClick={() => handleMoveOrder(order.id, 'Done')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
@@ -103,12 +94,9 @@ const PizzaStages = () => {
           .map((order) => (
             <div key={order.id} className="pizza-card">
               <p>Order ID: {order.id}</p>
-              <p>Type: {order.type}</p>
-              <p>Size: {order.size}</p>
-              <p>Base: {order.base}</p>
               <p>Order Placed: {order.timeSpent}</p>
               {/* <button onClick={() => handleMoveOrder(order.id, 'Done')}>Next</button> */}
-              <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
+              {/* <button onClick={() => handleCancelOrder(order.id)}>Cancel</button> */}
             </div>
           ))}
       </div>

@@ -24,6 +24,7 @@ const PizzaForm = () => {
     }else{
       const current = new Date()
       order.timeSpent = current.toString()
+      order.orderPlaceAt = current.toString()
       dispatch(placeOrder(order));
       setOrder({
         type: 'Veg',
