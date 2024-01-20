@@ -1,6 +1,6 @@
 // PizzaForm.js
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch , useSelector } from 'react-redux';
 import { placeOrder } from '../redux/pizzaSlice';
 
 const PizzaForm = () => {
@@ -15,15 +15,22 @@ const PizzaForm = () => {
     setOrder({ ...order, [e.target.name]: e.target.value });
   };
 
+  const orders = useSelector((state) => state.pizza.orders);
+
   const handlePlaceOrder = () => {
-    const current = new Date()
-    order.timeSpent = current.toString()
-    dispatch(placeOrder(order));
-    setOrder({
-      type: 'Veg',
-      size: 'Medium',
-      base: 'Thin',
-    });
+    const inProgessOrders = orders.filter((order)=> order.stage !== 'Done')
+    if(inProgessOrders.length >= 10){
+      alert('Not taking any order for now')
+    }else{
+      const current = new Date()
+      order.timeSpent = current.toString()
+      dispatch(placeOrder(order));
+      setOrder({
+        type: 'Veg',
+        size: 'Medium',
+        base: 'Thin',
+      });
+    }
   };
 
   return (
