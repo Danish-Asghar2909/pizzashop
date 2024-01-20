@@ -1,4 +1,3 @@
-// PizzaStages.js
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { moveOrder, cancelOrder } from '../redux/pizzaSlice';
@@ -18,6 +17,7 @@ const PizzaStages = () => {
   return (
     <div className="pizza-stages">
       <h2>Pizza Stages</h2>
+      <div className="horizontal-stages">
       <div className="stage-column">
         <h3>Order Placed</h3>
         {orders
@@ -36,7 +36,7 @@ const PizzaStages = () => {
       </div>
 
       <div className="stage-column">
-        <h3>Order Making</h3>
+        <h3>Order in Making</h3>
         {orders
           .filter((order) => order.stage === 'Making')
           .map((order) => (
@@ -70,7 +70,7 @@ const PizzaStages = () => {
       </div>
 
       <div className="stage-column">
-        <h3>Order Done</h3>
+        <h3>Order Picked</h3>
         {orders
           .filter((order) => order.stage === 'Done')
           .map((order) => (
@@ -85,7 +85,7 @@ const PizzaStages = () => {
             </div>
           ))}
       </div>
-
+      </div>
     </div>
   );
 };
