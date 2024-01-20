@@ -14,7 +14,7 @@ const pizzaSlice = createSlice({
         id: state.orders.length + 1,
         ...action.payload,
         stage: 'Placed',
-        timeSpent: '0 min 0 sec',
+        // timeSpent: '0 min 0 sec',
       };
       state.orders.push(newOrder);
     },
@@ -24,6 +24,8 @@ const pizzaSlice = createSlice({
       if (order) {
         order.stage = stage;
         // Update the timeSpent based on your implementation
+        const current = new Date()
+        order.timeSpent = current.toString()
       }
     },
     cancelOrder: (state, action) => {
@@ -33,5 +35,5 @@ const pizzaSlice = createSlice({
   },
 });
 
-export const { placeOrder, moveOrder, cancelOrder } = pizzaSlice.actions;
+export const { placeOrder, moveOrder, cancelOrder , editOrder } = pizzaSlice.actions;
 export default pizzaSlice.reducer;
