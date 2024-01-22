@@ -30,6 +30,16 @@ const MainComponent = () => {
   useEffect(()=>{
   },[refresh])
 
+  const calculateCompletedOrder = ( orders ) =>{
+    let completedOrders = 0
+    for(let i = 0 ; i < orders.length ; i++){
+      if(orders[i].stage === 'Done'){
+        completedOrders++
+      }
+    }
+    return completedOrders
+  }
+
   return (
     <div className="main-component">
       <h2>Main Section {<button onClick={()=> refreshScreen()}>Refresh</button>} </h2>
@@ -60,6 +70,9 @@ const MainComponent = () => {
               </td>
             </tr>
           ))}
+          <div>
+            <p>Total order Delivered : {calculateCompletedOrder(orders)}</p>
+          </div>
         </tbody>
       </table>
     </div>
