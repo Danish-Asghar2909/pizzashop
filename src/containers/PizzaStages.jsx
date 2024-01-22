@@ -13,7 +13,7 @@ const PizzaStages = () => {
     console.log("Reload")
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
-    }, 20000); // Update every 20 sec
+    }, 1000); // Update every 20 sec
 
     return () => clearInterval(intervalId);
   }, []);
@@ -28,9 +28,26 @@ const PizzaStages = () => {
 
   const isExceedTime = (order) => {
     const orderPlacedTime = new Date(order.timeSpent);
-    const timeDifference = (currentTime - orderPlacedTime) / (1000 * 60); // difference in minutes
-    const limitedMin = 3
-    return timeDifference > limitedMin;
+    const currentTimeNeedToCompare = new Date();
+    const timeDifference = (currentTimeNeedToCompare - orderPlacedTime) / (1000 * 60); // difference in minutes
+    const limitedMin = 3;
+  
+    console.log("Order placed time: ", orderPlacedTime);
+    console.log("Current Time Need To Compare: ", currentTimeNeedToCompare);
+    console.log("Time Difference: ", timeDifference);
+  
+    return timeDifference >= limitedMin; // Use >= instead of just >
+  };
+
+  const calculateTimeDifference = (order) => {
+    const orderPlacedTime = new Date(order.timeSpent);
+    const currentTimeNeedToCompare = new Date();
+    const timeDifference = (currentTimeNeedToCompare - orderPlacedTime) / 1000; // difference in seconds
+  
+    const minutes = Math.floor(timeDifference / 60);
+    const seconds = Math.floor(timeDifference % 60);
+  
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
   return (
@@ -48,7 +65,8 @@ const PizzaStages = () => {
                 className={`pizza-card ${isExceedTime(order) ? 'exceed-time' : ''}`}
               >
               <p>Order ID: {order.id}</p>
-              <p>Order Placed: {order.timeSpent} {<Timer {...order}/>}</p>
+              <p>Time Taken : {calculateTimeDifference(order)}</p>
+              {/* <p>Order Placed: {order.timeSpent} {<Timer {...order}/>}</p> */}
               <button onClick={() => handleMoveOrder(order.id, 'Making')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
             </div>
@@ -66,7 +84,8 @@ const PizzaStages = () => {
             className={`pizza-card ${isExceedTime(order) ? 'exceed-time' : ''}`}
             >
               <p>Order ID: {order.id}</p>
-              <p>Order Placed: {order.timeSpent} {<Timer {...order}/>} </p>
+              <p>Time Taken : {calculateTimeDifference(order)}</p>
+              {/* <p>Order Placed: {order.timeSpent} {<Timer {...order}/>} </p> */}
               <button onClick={() => handleMoveOrder(order.id, 'Ready')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
             </div>
@@ -80,7 +99,8 @@ const PizzaStages = () => {
           .map((order) => (
             <div key={order.id} className="pizza-card">
               <p>Order ID: {order.id}</p>
-              <p>Order Placed: {order.timeSpent} {<Timer {...order}/>} </p>
+              <p>Time Taken : {calculateTimeDifference(order)}</p>
+              {/* <p>Order Placed: {order.timeSpent} {<Timer {...order}/>} </p> */}
               <button onClick={() => handleMoveOrder(order.id, 'Done')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
             </div>
