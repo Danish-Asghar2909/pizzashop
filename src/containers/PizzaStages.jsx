@@ -10,10 +10,10 @@ const PizzaStages = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    console.log("Reload")
+    console.log("Reload" , orders)
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000); // Update every 20 sec
+    }, 1000); // Update every sec
 
     return () => clearInterval(intervalId);
   }, []);
@@ -32,10 +32,6 @@ const PizzaStages = () => {
     const timeDifference = (currentTimeNeedToCompare - orderPlacedTime) / (1000 * 60); // difference in minutes
     const limitedMin = 3;
   
-    console.log("Order placed time: ", orderPlacedTime);
-    console.log("Current Time Need To Compare: ", currentTimeNeedToCompare);
-    console.log("Time Difference: ", timeDifference);
-  
     return timeDifference >= limitedMin; // Use >= instead of just >
   };
 
@@ -47,7 +43,26 @@ const PizzaStages = () => {
     const minutes = Math.floor(timeDifference / 60);
     const seconds = Math.floor(timeDifference % 60);
   
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return `${minutes} min :${seconds < 10 ? '0' : ''}${seconds} sec`;
+  };
+
+  const calculateMinuteDifference = (order) => {
+    let startDateTime = new Date(order.timeSpent);
+    let endDateTime = new Date();
+    if(order.orderCompleted){
+      endDateTime = new Date(order.orderCompleted)
+      startDateTime = new Date(order.orderPlaceAt);
+    }else{
+      startDateTime = new Date(order.timeSpent);
+    }
+  
+    // Calculate the difference in milliseconds
+    const differenceInMilliseconds = endDateTime - startDateTime;
+
+    const min = Math. floor((differenceInMilliseconds/1000/60) << 0)
+    const sec = Math. floor((differenceInMilliseconds/1000) % 60);
+
+    return min + " min : " + sec + " sec"
   };
 
   return (
@@ -65,8 +80,7 @@ const PizzaStages = () => {
                 className={`pizza-card ${isExceedTime(order) ? 'exceed-time' : ''}`}
               >
               <p>Order ID: {order.id}</p>
-              <p>Time Taken : {calculateTimeDifference(order)}</p>
-              {/* <p>Order Placed: {order.timeSpent} {<Timer {...order}/>}</p> */}
+              <p>{calculateTimeDifference(order)}</p>
               <button onClick={() => handleMoveOrder(order.id, 'Making')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
             </div>
@@ -84,8 +98,7 @@ const PizzaStages = () => {
             className={`pizza-card ${isExceedTime(order) ? 'exceed-time' : ''}`}
             >
               <p>Order ID: {order.id}</p>
-              <p>Time Taken : {calculateTimeDifference(order)}</p>
-              {/* <p>Order Placed: {order.timeSpent} {<Timer {...order}/>} </p> */}
+              <p>{calculateTimeDifference(order)}</p>
               <button onClick={() => handleMoveOrder(order.id, 'Ready')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
             </div>
@@ -99,8 +112,7 @@ const PizzaStages = () => {
           .map((order) => (
             <div key={order.id} className="pizza-card">
               <p>Order ID: {order.id}</p>
-              <p>Time Taken : {calculateTimeDifference(order)}</p>
-              {/* <p>Order Placed: {order.timeSpent} {<Timer {...order}/>} </p> */}
+              <p>{calculateTimeDifference(order)}</p>
               <button onClick={() => handleMoveOrder(order.id, 'Done')}>Next</button>
               <button onClick={() => handleCancelOrder(order.id)}>Cancel</button>
             </div>
@@ -114,9 +126,7 @@ const PizzaStages = () => {
           .map((order) => (
             <div key={order.id} className="pizza-card">
               <p>Order ID: {order.id}</p>
-              <p>Order Placed: {order.timeSpent}</p>
-              {/* <button onClick={() => handleMoveOrder(order.id, 'Done')}>Next</button> */}
-              {/* <button onClick={() => handleCancelOrder(order.id)}>Cancel</button> */}
+              <p>{calculateMinuteDifference(order)}</p>
             </div>
           ))}
       </div>

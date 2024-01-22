@@ -10,10 +10,12 @@ const pizzaSlice = createSlice({
   initialState,
   reducers: {
     placeOrder: (state, action) => {
+      const current = new Date()
       const newOrder = {
         id: state.orders.length + 1,
         ...action.payload,
         stage: 'Placed',
+        timeSpent : current.toString()
         // timeSpent: '0 min 0 sec',
       };
       state.orders.push(newOrder);
@@ -26,6 +28,10 @@ const pizzaSlice = createSlice({
         // Update the timeSpent based on your implementation
         const current = new Date()
         order.timeSpent = current.toString()
+        if(order.stage === 'Done'){
+          const current = new Date()
+          order.orderCompleted = current.toString()
+        }
       }
     },
     cancelOrder: (state, action) => {

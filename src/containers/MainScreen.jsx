@@ -1,21 +1,25 @@
 // MainComponent.js
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import Timer from '../components/Timer';
+import { useSelector , useDispatch } from 'react-redux';
 import './MainScreen.css'; // Import your CSS file
+import { cancelOrder } from '../redux/pizzaSlice';
 
 const MainComponent = () => {
+  const dispatch = useDispatch();
   const orders = useSelector((state) => state.pizza.orders);
 
-  const calculateMinuteDifference = ( startDate , endDate ) => {
-    const startDateTime = new Date(startDate);
-    const endDateTime = new Date();
-
+  const calculateMinuteDifference = (order) => {
+    let startDateTime = new Date(order.orderPlaceAt);
+    let endDateTime = new Date();
+    if(order.orderCompleted){
+      endDateTime = new Date(order.orderCompleted)
+      startDateTime = new Date(order.orderPlaceAt);
+    }else{
+      startDateTime = new Date(order.orderPlaceAt);
+    }
+  
     // Calculate the difference in milliseconds
     const differenceInMilliseconds = endDateTime - startDateTime;
-
-    // Convert milliseconds to minutes
-    // const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
 
     const min = Math. floor((differenceInMilliseconds/1000/60) << 0)
     const sec = Math. floor((differenceInMilliseconds/1000) % 60);
@@ -40,10 +44,13 @@ const MainComponent = () => {
     return completedOrders
   }
 
+  const handleCancelOrder = (orderId) => {
+    dispatch(cancelOrder(orderId));
+  };
+
   return (
     <div className="main-component">
       <h2>Main Section {<button onClick={()=> refreshScreen()}>Refresh</button>} </h2>
-      {/* <button onClick={()=> refreshScreen()}>Refresh</button> */}
       <table>
         <thead>
           <tr>
@@ -59,12 +66,12 @@ const MainComponent = () => {
               <td>Order id : {order.id}</td>
               <td>{order.stage}</td>
               <td>
-                {calculateMinuteDifference(order.orderPlaceAt)}
+                {calculateMinuteDifference(order)}
               </td>
               <td>
                 {order.stage !== 'Done' && (
                   <>
-                    <button >Cancel</button>
+                    <button onClick={() => handleCancelOrder(order.id)} >Cancel</button>
                   </>
                 )}
               </td>
