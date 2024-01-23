@@ -8,17 +8,9 @@ import './App.css'; // Import your CSS file
 const App = () => {
   return (
     <div className="app-container">
-      <div className="row">
-        <div className="column">
-          <PizzaForm />
-        </div>
-        <div className="column">
-          <PizzaStages />
-        </div>
-      </div>
-      <div className="row full-height">
+        <PizzaForm />
+        <PizzaStages />
         <MainComponent />
-      </div>
     </div>
   );
 };

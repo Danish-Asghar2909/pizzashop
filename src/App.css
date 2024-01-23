@@ -6,15 +6,3 @@
   min-height: 100vh; /* Set minimum height to 100% of the viewport height */
 }
 
-.row {
-  display: flex;
-}
-
-.column {
-  flex: 1;
-  margin: 10px;
-}
-
-.full-height {
-  flex: 1;
-}
